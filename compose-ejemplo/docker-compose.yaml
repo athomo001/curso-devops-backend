@@ -17,6 +17,8 @@ services:
       - MYSQL_PASSWORD=wordpress_password
       - MYSQL_DATABASE=bd_wordpress
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data: /var/lib/mysql
+
 volumes:
   db_data:
+    

@@ -27,5 +27,10 @@ pipeline{
             }
         }
     }
+    stages{
+        steps{
+            sh 'docker build -t curso-devops-backend .'
+        }
+    }
 
 }

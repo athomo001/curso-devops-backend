@@ -26,10 +26,10 @@ pipeline{
                 sh 'npm run build'
             }
         }
-    }
-    stages('CD - Contruir e Imagen Docker'){
-        steps{
-            sh 'docker build -t curso-devops-backend .'
+        stage('CD - Contruir e Imagen Docker'){
+            steps{
+                sh 'docker build -t curso-devops-backend .'
+            }
         }
     }
 

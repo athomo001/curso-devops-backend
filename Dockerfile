@@ -1,14 +1,23 @@
 FROM node:24
 WORKDIR /app
 
-#COPY . .
-COPY package*.json .
+# Copia los archivos de definición de dependencias
+COPY package*.json ./
 
-
+# Instala las dependencias del proyecto
 RUN npm install
 
+# Copia los archivos de configuración requeridos para la compilación de NestJS
+COPY tsconfig*.json ./
+COPY nest-cli.json ./
+
+# Copia el código fuente del proyecto
+COPY src ./src
+
+# Compila el proyecto generando el directorio 'dist'
 RUN npm run build
 
+# Comando de inicio de la aplicación en producción
 CMD ["node", "dist/main.js"]
 
 #COPY package*.json .

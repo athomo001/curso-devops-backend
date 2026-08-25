@@ -27,7 +27,7 @@ pipeline{
             }
         }
     }
-    stages{
+    stages('CD - Contruir e Imagen Docker'){
         steps{
             sh 'docker build -t curso-devops-backend .'
         }

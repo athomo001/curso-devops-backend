@@ -32,10 +32,12 @@ pipeline{
                 
             }
         }
-    }
-    stage('CI - Distribuir imagen de docker'){
-        steps {
-            sh 'docker build -t curso-devops-backend:latest .'
+        // Stage para la construcción y distribución de la imagen de Docker del backend
+        stage('CI - Distribuir imagen de docker'){
+            steps {
+                // Construcción de la imagen Docker etiquetada como latest a partir del Dockerfile en la raíz
+                sh 'docker build -t curso-devops-backend:latest .'
+            }
         }
     }
 }

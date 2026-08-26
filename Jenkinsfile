@@ -38,7 +38,8 @@ pipeline{
                 // Construcción de la imagen Docker etiquetada como latest a partir del Dockerfile en la raíz
                 sh 'docker build -t curso-devops-backend:latest .'
                 sh 'docker tag curso-devops-backend ghcr.io/athomo001/curso-devops-backend'
-                sh 'docker tag curso-devops-backend athomo001/curso-devops-backend'
+                // Se utiliza el usuario correcto 'athanespinoza' de Docker Hub para el tag
+                sh 'docker tag curso-devops-backend athanespinoza/curso-devops-backend'
                 
                 
             }
@@ -46,10 +47,10 @@ pipeline{
         stage('CD - Distribuir DockerHUB'){
             steps{
                 script{
-                    //autenticacion
+                    // Autenticación en Docker Hub utilizando las credenciales configuradas
                     docker.withRegistry('https://index.docker.io/v1/','curso-devops-dh'){
-                    //push
-                    sh 'docker push athomo001/curso-devops-backend'  
+                        // Sube la imagen usando el namespace del usuario autenticado
+                        sh 'docker push athanespinoza/curso-devops-backend'  
                     }
                 }
             }
@@ -57,10 +58,10 @@ pipeline{
         stage('CD - Distribuir Github'){
             steps{
                 script{
-                    //autenticacion
+                    // Autenticación en GitHub Container Registry
                     docker.withRegistry('https://ghcr.io','curso-devops-gh'){
-                    //push
-                    sh 'docker push ghcr.io/athomo001/curso-devops-backend'
+                        // Sube la imagen a GitHub Packages usando el namespace de la organización/usuario correspondiente
+                        sh 'docker push ghcr.io/athomo001/curso-devops-backend'
                     }
                 }
             }

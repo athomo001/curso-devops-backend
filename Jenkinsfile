@@ -49,9 +49,10 @@ pipeline{
             steps {              
                 // Construcción de la imagen Docker etiquetada como latest a partir del Dockerfile en la raíz
                 sh 'docker build -t curso-devops-backend:latest .'
-                sh 'docker tag curso-devops-backend ghcr.io/athomo001/curso-devops-backend:${env.APP_SEMANTIC_VERSION}'
+                // Se usan comillas dobles para que Groovy interpole la variable de entorno
+                sh "docker tag curso-devops-backend ghcr.io/athomo001/curso-devops-backend:${env.APP_SEMANTIC_VERSION}"
                 // Se utiliza el usuario correcto 'athanespinoza' de Docker Hub para el tag
-                sh 'docker tag curso-devops-backend athanespinoza/curso-devops-backend:${env.APP_SEMANTIC_VERSION}'
+                sh "docker tag curso-devops-backend athanespinoza/curso-devops-backend:${env.APP_SEMANTIC_VERSION}"
                 
                 
             }
@@ -61,8 +62,8 @@ pipeline{
                 script{
                     // Autenticación en Docker Hub utilizando las credenciales configuradas
                     docker.withRegistry('https://index.docker.io/v1/','curso-devops-dh'){
-                        // Sube la imagen usando el namespace del usuario autenticado
-                        sh 'docker push athanespinoza/curso-devops-backend:${env.APP_SEMANTIC_VERSION}'  
+                        // Sube la imagen usando la versión semántica de la aplicación
+                        sh "docker push athanespinoza/curso-devops-backend:${env.APP_SEMANTIC_VERSION}"  
                     }
                 }
             }
@@ -72,8 +73,8 @@ pipeline{
                 script{
                     // Autenticación en GitHub Container Registry
                     docker.withRegistry('https://ghcr.io','curso-devops-gh'){
-                        // Sube la imagen a GitHub Packages usando el namespace de la organización/usuario correspondiente
-                        sh 'docker push ghcr.io/athomo001/curso-devops-backend:${env.APP_SEMANTIC_VERSION}'
+                        // Sube la imagen a GitHub Packages usando la versión semántica de la aplicación
+                        sh "docker push ghcr.io/athomo001/curso-devops-backend:${env.APP_SEMANTIC_VERSION}"
                     }
                 }
             }

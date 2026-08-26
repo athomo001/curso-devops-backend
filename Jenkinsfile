@@ -82,8 +82,11 @@ pipeline {
             stages {
                 stage('validacion de codigo'){
                     steps {
-                        withSonarQubeEnv('sonarqube'){
-                            sh 'sonar-scanner'
+                        // Inyecta la credencial 'jenkins-token' como variable de entorno para la autenticación de SonarQube
+                        withCredentials([string(credentialsId: 'jenkins-token', variable: 'SONAR_TOKEN')]) {
+                            withSonarQubeEnv('sonarqube'){
+                                sh 'sonar-scanner'
+                            }
                         }
                     }
                 }
